@@ -1,2 +1,2 @@
 # desktopfilestruct
-used for cleaning the download folder in pc
+Used for cleaning and keeping the download files in a structured way in pc
