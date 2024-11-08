@@ -16,7 +16,7 @@ music_destination = ""
 video_destination = ""
 image_destination = ""
 doc_destination = ""
-torrent_destination = ""  # New folder for torrent links
+torrent_destination = ""  
 
 # ? Supported image file formats
 image_types = [".jpg", ".jpeg", ".jpe", ".jif", ".jfif", ".jfi", ".png", ".gif", ".webp", ".tiff", ".tif", ".psd", ".raw", ".arw", ".cr2", ".nrw",
