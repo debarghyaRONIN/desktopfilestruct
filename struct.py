@@ -8,7 +8,7 @@ import logging
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
-# ! TO BE CONFIGURED
+
 # ? Directory to monitor e.g. Windows: "C:\\Users\\UserName\\Downloads"
 watch_directory = ""
 sfx_destination = ""
@@ -18,25 +18,25 @@ image_destination = ""
 doc_destination = ""
 torrent_destination = ""  
 
-# ? Supported image file formats
+# Supported image file formats
 image_types = [".jpg", ".jpeg", ".jpe", ".jif", ".jfif", ".jfi", ".png", ".gif", ".webp", ".tiff", ".tif", ".psd", ".raw", ".arw", ".cr2", ".nrw",
                ".k25", ".bmp", ".dib", ".heif", ".heic", ".ind", ".indd", ".indt", ".jp2", ".j2k", ".jpf", ".jpf", ".jpx", ".jpm", ".mj2", ".svg", ".svgz", ".ai", ".eps", ".ico"]
-# ? Supported video file formats
+#  Supported video file formats
 video_types = [".webm", ".mpg", ".mp2", ".mpeg", ".mpe", ".mpv", ".ogg",
                ".mp4", ".mp4v", ".m4v", ".avi", ".wmv", ".mov", ".qt", ".flv", ".swf", ".avchd"]
-# ? Supported audio file formats
+#  Supported audio file formats
 audio_types = [".m4a", ".flac", "mp3", ".wav", ".wma", ".aac"]
-# ? Supported document file formats
+# Supported document file formats
 document_types = [".doc", ".docx", ".odt",
                   ".pdf", ".xls", ".xlsx", ".ppt", ".pptx"]
-# ? Supported torrent file formats
+#  Supported torrent file formats
 torrent_types = [".torrent"]  
 
 # Function to ensure unique filenames
 def ensure_unique(dest, filename):
     file_base, file_ext = splitext(filename)
     count = 1
-    # * Add a counter to the filename if it already exists
+    #  Add a counter to the filename if it already exists
     while exists(f"{dest}/{filename}"):
         filename = f"{file_base}({str(count)}){file_ext}"
         count += 1
@@ -53,7 +53,7 @@ def relocate_file(destination, entry, filename):
     move(entry, destination)
 
 class FileMoverHandler(FileSystemEventHandler):
-    # ? Triggered when the watch directory is modified
+    # Triggered when the watch directory is modified
     def on_modified(self, event):
         with scandir(watch_directory) as files:
             for file in files:
@@ -64,7 +64,7 @@ class FileMoverHandler(FileSystemEventHandler):
                 self.process_document_files(file, file_name)
                 self.process_torrent_files(file, file_name)  # New function for torrents
 
-    # * Process audio files
+    # Process audio files
     def process_audio_files(self, file, file_name):
         for audio_ext in audio_types:
             if file_name.endswith(audio_ext) or file_name.endswith(audio_ext.upper()):
@@ -75,28 +75,28 @@ class FileMoverHandler(FileSystemEventHandler):
                 relocate_file(destination, file, file_name)
                 logging.info(f"Relocated audio file: {file_name}")
 
-    # * Process video files
+    # Process video files
     def process_video_files(self, file, file_name):
         for video_ext in video_types:
             if file_name.endswith(video_ext) or file_name.endswith(video_ext.upper()):
                 relocate_file(video_destination, file, file_name)
                 logging.info(f"Relocated video file: {file_name}")
 
-    # * Process image files
+    # Process image files
     def process_image_files(self, file, file_name):
         for image_ext in image_types:
             if file_name.endswith(image_ext) or file_name.endswith(image_ext.upper()):
                 relocate_file(image_destination, file, file_name)
                 logging.info(f"Relocated image file: {file_name}")
 
-    # * Process document files
+    # Process document files
     def process_document_files(self, file, file_name):
         for doc_ext in document_types:
             if file_name.endswith(doc_ext) or file_name.endswith(doc_ext.upper()):
                 relocate_file(doc_destination, file, file_name)
                 logging.info(f"Relocated document file: {file_name}")
 
-    # * Process torrent files
+    # Process torrent files
     def process_torrent_files(self, file, file_name):
         for torrent_ext in torrent_types:
             if file_name.endswith(torrent_ext) or file_name.endswith(torrent_ext.upper()):
